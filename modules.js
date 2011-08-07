@@ -28,7 +28,6 @@ CORE.create_module('search-box', function (sb) {
 		handleSearch: function () {
 			console.log('handleSearch called')
 			var query = input.value;
-			alert(query.length);
 			if (query) {
 				sb.publish({
 					type: 'perform-search',
@@ -52,24 +51,59 @@ CORE.create_module('search-box', function (sb) {
 });
 
 CORE.create_module('results', function (sb) {
-	var list_items;
+	var list_items, sub1, sub2;
 	
 	return {
 		init: function () {
 			list_items = sb.find('#results li');
-			sb.subscribe('perform-search', function (searchTerm) {
+			
+			sub1 = sb.subscribe('perform-search', function (searchTerm) {
 				for (var i=0, len = list_items.length; i<len; i++) {
 					if (searchTerm === list_items[i].innerHTML) {
 						list_items[i].style.color = 'red';
 					}
 				}
 			});
+			
+			sub2 = sb.subscribe('quit-search', function () {
+				for (var i=0, len = list_items.length; i<len; i++) {
+					list_items[i].style.color = 'black';
+				}
+			});
+			//alert(sub1)
 		},
 		destroy: function () {
-			
+			sb.unsubscribe('perform-search', sub1);
+			sb.unsubscribe('quit-search', sub2);
 		}
 	};
 });
 
-CORE.start('search-box');
-CORE.start('results');
+CORE.create_module('your-search', function (sb) {
+	var sub1, sub2;
+	return {
+		init: function () {
+			var yourSearch = document.getElementById('your-search');
+			
+			sub1 = sb.subscribe('perform-search', function (searchTerm) {
+				yourSearch.innerHTML = searchTerm;
+				yourSearch.style.visibility = 'visible';
+			});
+			
+			sub2 = sb.subscribe('quit-search', function () {
+				yourSearch.style.visibility = 'hidden';
+			});
+			//alert(sub1)			
+		},
+		destroy: function () {
+			sb.unsubscribe('perform-search', sub1);
+			sb.unsubscribe('quit-search', sub2);
+		}
+	};
+});
+
+CORE.startAll();
+//Examples of stopping modules
+//CORE.stop('your-search');
+//CORE.stop('results');
+//CORE.stopAll();
