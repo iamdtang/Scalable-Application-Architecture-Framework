@@ -15,9 +15,10 @@ var Sandbox = {
 				return core.dom.query(selector);
 			},
 			
-			addEvent: function (element, type, fn) {
+			//el can be a single DOM element, collection of DOM elements, or a CSS selector
+			addEvent: function (el, type, fn) {
 				console.log('addEvent called')
-				core.dom.bind(element, type, fn);
+				core.dom.bind(el, type, fn);
 			},
 			
 			removeEvent: function (element, type, fn) {

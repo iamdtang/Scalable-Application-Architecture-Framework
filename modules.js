@@ -57,6 +57,11 @@ CORE.create_module('results', function (sb) {
 		init: function () {
 			list_items = sb.find('#results li');
 			
+			sb.addEvent('#results li', 'click', function() {
+				alert(this.innerHTML);
+			});
+			
+			
 			sub1 = sb.subscribe('perform-search', function (searchTerm) {
 				for (var i=0, len = list_items.length; i<len; i++) {
 					if (searchTerm === list_items[i].innerHTML) {

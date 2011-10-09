@@ -107,7 +107,7 @@ var CORE = (function () {
 		},
 
 		dom: {
-			/* returns either a collection of DOM elements, a single DOM element, or false if no elements are found */
+			/* returns either a node list of DOM elements, a single DOM element, or false if no elements are found */
 			query: function (selector) {
 				var elementList, elementListLen;
 				if (selector) {
@@ -125,6 +125,7 @@ var CORE = (function () {
 				}
 			},
 			
+			//el can be a single DOM element, a DOM node list, or a CSS selector
 			bind: function (el, type, fn) {
 				if (el && type) {
 					if (typeof fn === 'function') {
