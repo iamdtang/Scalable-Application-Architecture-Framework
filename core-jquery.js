@@ -3,17 +3,17 @@
  * enable inter-module communication. loose coupling between related modules
  * detect, trap, and report errors
  */
-
-var CORE = (function () {
+var SJA = {};
+SJA.core = (function () {
 	//topicList is an array of array's containing subscriptions for all topics
 	var moduleData = {}, moduleInstances = {}, topicList = [];
 		
 	return {
-		create_module: function (moduleId, creator) {
+		define: function (moduleId, creator) {
 			var tmp;
 			if (typeof moduleId === 'string' && typeof creator === 'function') {			
 				//ensures that a valid module is being created (i.e. it has init and destroy methods)
-				tmp = creator(Sandbox.create(this, moduleId));
+				tmp = creator(SJA.sandbox.create(this, moduleId));
 				if (typeof tmp.init === 'function' && typeof tmp.destroy === 'function') {
 					moduleData[moduleId] = creator;
 					console.log(moduleId + ' created');
@@ -27,7 +27,7 @@ var CORE = (function () {
 		start: function (moduleId) {
 			if (moduleData[moduleId]) {
 				if ( !(moduleInstances[moduleId]) ) {
-					moduleInstances[moduleId] = moduleData[moduleId](Sandbox.create(this, moduleId));
+					moduleInstances[moduleId] = moduleData[moduleId](SJA.sandbox.create(this, moduleId));
 				}
 				
 				moduleInstances[moduleId].init();
@@ -103,7 +103,8 @@ var CORE = (function () {
 		},
 
 		unregisterEvents: function (topic, index) {
-			topicList[topic].splice(index, 1);
+			//topicList[topic].splice(index, 1);
+			topicList[topic][index] = null;
 		},
 
 		dom: {

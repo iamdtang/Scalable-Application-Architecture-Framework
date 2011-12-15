@@ -4,7 +4,7 @@
  * translate module requests into core actions
  */
 
-var Sandbox = {
+SJA.sandbox = {
 	create: function (core, module_selector) {
 		
 		//module's container element

@@ -5,7 +5,7 @@
  * dont directly reference other modules
  */
 
-CORE.create_module('search-box', function (sb) {
+SJA.core.define('search-box', function (sb) {
 	var input, button, reset;
 	
 	//modules must have init and destroy
@@ -50,7 +50,7 @@ CORE.create_module('search-box', function (sb) {
 	
 });
 
-CORE.create_module('results', function (sb) {
+SJA.core.define('results', function (sb) {
 	var list_items, sub1, sub2;
 	
 	return {
@@ -84,7 +84,7 @@ CORE.create_module('results', function (sb) {
 	};
 });
 
-CORE.create_module('your-search', function (sb) {
+SJA.core.define('your-search', function (sb) {
 	var sub1, sub2;
 	return {
 		init: function () {
@@ -107,7 +107,7 @@ CORE.create_module('your-search', function (sb) {
 	};
 });
 
-CORE.startAll();
+SJA.core.startAll();
 //Examples of stopping modules
 //CORE.stop('your-search');
 //CORE.stop('results');
